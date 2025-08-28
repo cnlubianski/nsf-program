@@ -9,30 +9,25 @@ library(purrr)
 working_directory <- "C:/Users/cnlub/OneDrive/Documents/nsf-program/"
 
 # Read in the cleaned county employment data
-county_data <- read_csv(paste0(working_directory, "data/county_estimates.csv"),
-                        show_col_types = FALSE)
+county_unemployment <- read_csv(paste0(working_directory, "data/county_unemployment.csv"),
+                                show_col_types = FALSE)
 
 # County/Area Data
-area_level_info <- county_data |>
-  select(area_code, area_name, county, state) |> 
+area_level_info <- county_unemployment |>
+  select(LAUS_Code, State_FIPS, Area_Code, Area_Name, County, State) |> 
   distinct()
-
-county_unemployment <- county_data |> 
-  filter(measure_name == "Unemployment Rate") |> 
-  mutate(value = as.numeric(value),
-         year = as.numeric(year),
-         month = as.numeric(month))
 
 # Compute the trend and cycle components using hpfilter()
 panel_hp <- county_unemployment |>
   # 1. Arrange & group
-  arrange(county, year, month) |>
-  group_by(county) |>
+  arrange(County, Year, Month) |>
+  group_by(County) |>
   # Capture each county’s data in a list-column
   summarise(data = list(cur_data_all()), .groups = "drop") |>
   # 2. Build ts object for each county
   mutate(ts_data = map(
-    data, ~ ts(.x$value, start = c(min(.x$year), min(.x$month)), frequency = 12))) |>
+    data, ~ ts(.x$Unemployment_Rate, start = c(min(.x$Year), min(.x$Month)),
+      frequency = 12))) |>
   # 3. Apply hpfilter to each ts series
   mutate(hp_out = map(
     ts_data, ~ hpfilter(.x, freq = 14400, # λ = 14,400 for monthly smoothing
@@ -42,7 +37,7 @@ panel_hp <- county_unemployment |>
          trend = map(hp_out, ~ as.numeric(.x$trend)),
          date  = map(ts_data, ~ as.Date(as.yearmon(time(.x))))) |>
   # 5. Keep only the pieces we need
-  select(county, date, cycle, trend) |>
+  select(County, date, cycle, trend) |>
   # 6. Unnest so each row = County × Date
   unnest(cols = c(date, cycle, trend))
 
@@ -50,11 +45,3 @@ panel_hp <- county_unemployment |>
 panel_hp |>
   left_join(area_level_info, by = "County") |> 
   write_csv(paste0(working_directory, "data/", "hpfilter_results.csv"))
-
-
-
-test <- county_unemployment |> 
-  filter(county == "Bexar County")
-
-ts_data <- ts(test$value, start = c(min(test$year), min(test$month)), frequency = 12)
-hi <- hpfilter(ts_data, freq = 14400, type = "lambda", drift = FALSE)
