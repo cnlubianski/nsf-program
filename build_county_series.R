@@ -7,7 +7,7 @@ library(stringr)
 working_directory <- "C:/Users/cnlub/OneDrive/Documents/nsf-program/"
 
 # Read in already-processed series ID information
-series <- read_csv(paste0(working_directory, "data/series.csv"), show_col_types = FALSE)
+series <- read_csv(paste0(working_directory, "data/series_ids.csv"), show_col_types = FALSE)
 
 # Read the file
 county_series <- read.table(
@@ -23,5 +23,7 @@ county_series_clean <- county_series |>
   filter(period != 13) |> 
   left_join(series, by = "series_id") |> 
   select(series_id, year, month = period, value, area_code, seasonal,
-         measure_name, area_name, county, state)
+         measure_name, area_name, county, state) |> 
+  mutate()
+
 write_csv(county_series_clean, paste0(working_directory, "data/county_estimates.csv"))

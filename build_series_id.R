@@ -42,7 +42,9 @@ la_series_clean <- la_series |>
   mutate(area_name = series_title |>
            str_replace("^.*?:\\s*", "") |>
            str_remove_all("\\s*\\(U\\)"),
+         area_name = str_replace(area_name, "/city", ""),
+         area_name = str_replace(area_name, "/town", ""),
          county = str_trim(str_extract(area_name, "^[^,]+")),
          state  = str_trim(str_extract(area_name, "[^,]+$"))
   )
-write_csv(la_series_clean, paste0(working_directory, "data/series.csv"))
+write_csv(la_series_clean, paste0(working_directory, "data/series_id.csv"))

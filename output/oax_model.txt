@@ -1,0 +1,449 @@
+> summary(oax_model)
+$beta
+$beta$beta.A
+            (Intercept)                    year                 quarter 
+           3.007627e+00           -9.655504e-04           -3.786122e-01 
+            labor_force         avg_quarter_emp     tot_quarterly_wages 
+           1.989395e-05           -2.910800e-05            4.106114e-10 
+        avg_weekly_wage employment_loc_quotient 
+           7.431719e-05           -1.760688e-01 
+
+$beta$beta.B
+            (Intercept)                    year                 quarter 
+           3.784148e-01            1.124291e-04           -2.414764e-01 
+            labor_force         avg_quarter_emp     tot_quarterly_wages 
+           3.659032e-07           -4.695801e-07            5.015961e-12 
+        avg_weekly_wage employment_loc_quotient 
+          -8.068181e-06                      NA 
+
+$beta$beta.diff
+            (Intercept)                    year                 quarter 
+           2.629212e+00           -1.077980e-03           -1.371358e-01 
+            labor_force         avg_quarter_emp     tot_quarterly_wages 
+           1.952804e-05           -2.863841e-05            4.055954e-10 
+        avg_weekly_wage employment_loc_quotient 
+           8.238537e-05                      NA 
+
+$beta$beta.R
+                (Intercept)          year    quarter  labor_force
+[1,]  0.0000000 0.378414836  0.0001124291 -0.2414764 3.659032e-07
+[2,]  1.0000000 3.007626654 -0.0009655504 -0.3786122 1.989395e-05
+[3,]  0.5000000 1.693020745 -0.0004265606 -0.3100443 1.012993e-05
+[4,]  0.6852952 2.180201114 -0.0006263051 -0.3354549 1.374838e-05
+[5,] -1.0000000 0.001829173  0.0004926622 -0.3350403 4.292816e-07
+[6,] -2.0000000 0.021653821  0.0004828048 -0.3350508 4.300065e-07
+     avg_quarter_emp tot_quarterly_wages avg_weekly_wage
+[1,]   -4.695801e-07        5.015961e-12   -8.068181e-06
+[2,]   -2.910800e-05        4.106114e-10    7.431719e-05
+[3,]   -1.478879e-05        2.078137e-10    3.312450e-05
+[4,]   -2.009535e-05        2.829685e-10    4.839012e-05
+[5,]   -5.691285e-07        7.142305e-12   -9.419577e-06
+[6,]   -5.687614e-07        7.092843e-12   -8.707421e-06
+     employment_loc_quotient
+[1,]                      NA
+[2,]                      NA
+[3,]                      NA
+[4,]                      NA
+[5,]              -0.1515777
+[6,]              -0.1518295
+
+
+$call
+oaxaca(formula = cycle ~ year + quarter + labor_force + avg_quarter_emp + 
+    tot_quarterly_wages + avg_weekly_wage + employment_loc_quotient | 
+    metro, data = regression_data, R = 100)
+
+$n
+$n$n.A
+[1] 286500
+
+$n$n.B
+[1] 131568
+
+$n$n.pooled
+[1] 418068
+
+
+$R
+[1] 100
+
+$reg
+$reg$reg.A
+
+Call:
+NULL
+
+Coefficients:
+            (Intercept)                     year                  quarter  
+              3.008e+00               -9.656e-04               -3.786e-01  
+            labor_force          avg_quarter_emp      tot_quarterly_wages  
+              1.989e-05               -2.911e-05                4.106e-10  
+        avg_weekly_wage  employment_loc_quotient  
+              7.432e-05               -1.761e-01  
+
+
+$reg$reg.B
+
+Call:
+NULL
+
+Coefficients:
+            (Intercept)                     year                  quarter  
+              3.784e-01                1.124e-04               -2.415e-01  
+            labor_force          avg_quarter_emp      tot_quarterly_wages  
+              3.659e-07               -4.696e-07                5.016e-12  
+        avg_weekly_wage  employment_loc_quotient  
+             -8.068e-06                       NA  
+
+
+$reg$reg.pooled.1
+
+Call:
+NULL
+
+Coefficients:
+            (Intercept)                     year                  quarter  
+              1.829e-03                4.927e-04               -3.350e-01  
+            labor_force          avg_quarter_emp      tot_quarterly_wages  
+              4.293e-07               -5.691e-07                7.142e-12  
+        avg_weekly_wage  employment_loc_quotient  
+             -9.420e-06               -1.516e-01  
+
+
+$reg$reg.pooled.2
+
+Call:
+NULL
+
+Coefficients:
+            (Intercept)                     year                  quarter  
+              2.165e-02                4.828e-04               -3.351e-01  
+            labor_force          avg_quarter_emp      tot_quarterly_wages  
+              4.300e-07               -5.688e-07                7.093e-12  
+        avg_weekly_wage  employment_loc_quotient                    metro  
+             -8.707e-06               -1.518e-01               -7.246e-04  
+
+
+
+$threefold
+$threefold$overall
+  coef(endowments)     se(endowments) coef(coefficients)   se(coefficients) 
+                NA                 NA                 NA                 NA 
+ coef(interaction)    se(interaction) 
+                NA                 NA 
+
+$threefold$variables
+                        coef(endowments) se(endowments) coef(coefficients)
+(Intercept)                 0.000000e+00   0.0000000000         2.62921182
+year                       -2.184973e-04   0.0008445553        -2.16494810
+quarter                    -1.685699e-06   0.0007962714        -0.34283945
+labor_force                -4.234956e-02   0.0058969987         2.47887028
+avg_quarter_emp             4.816099e-02   0.0070593155        -3.17653879
+tot_quarterly_wages        -6.277848e-03   0.0031568122         0.53433348
+avg_weekly_wage             1.242234e-03   0.0030047172         0.05942013
+employment_loc_quotient               NA             NA                 NA
+                        se(coefficients) coef(interaction) se(interaction)
+(Intercept)                  1.367976134      0.000000e+00    0.0000000000
+year                         1.363247371      2.094970e-03    0.0013201188
+quarter                      0.006621781     -9.573178e-07    0.0004494982
+labor_force                  0.115709019     -2.260172e+00    0.1059170066
+avg_quarter_emp              0.147371192      2.937208e+00    0.1366550673
+tot_quarterly_wages          0.101632591     -5.076328e-01    0.0965420328
+avg_weekly_wage              0.022833927     -1.268463e-02    0.0048696469
+employment_loc_quotient               NA                NA              NA
+
+
+$twofold
+$twofold$overall
+     group.weight coef(explained) se(explained) coef(unexplained)
+[1,]    0.0000000              NA            NA                NA
+[2,]    1.0000000              NA            NA                NA
+[3,]    0.5000000              NA            NA                NA
+[4,]    0.6852952              NA            NA                NA
+[5,]   -1.0000000    0.0002552667   0.001938659                NA
+[6,]   -2.0000000    0.0001051599   0.002226747                NA
+     se(unexplained) coef(unexplained A) se(unexplained A) coef(unexplained B)
+[1,]              NA                  NA                NA                  NA
+[2,]              NA                  NA                NA                  NA
+[3,]              NA                  NA                NA                  NA
+[4,]              NA                  NA                NA                  NA
+[5,]              NA        1.808007e-04      9.229800e-04                  NA
+[6,]              NA       -2.184346e-12      4.698708e-12                  NA
+     se(unexplained B)
+[1,]                NA
+[2,]                NA
+[3,]                NA
+[4,]                NA
+[5,]                NA
+[6,]                NA
+
+$twofold$variables
+$twofold$variables[[1]]
+                        group.weight coef(explained) se(explained)
+(Intercept)                        0    0.000000e+00  0.0000000000
+year                               0   -2.184973e-04  0.0008445553
+quarter                            0   -1.685699e-06  0.0007962714
+labor_force                        0   -4.234956e-02  0.0058969987
+avg_quarter_emp                    0    4.816099e-02  0.0070593155
+tot_quarterly_wages                0   -6.277848e-03  0.0031568122
+avg_weekly_wage                    0    1.242234e-03  0.0030047172
+employment_loc_quotient            0              NA            NA
+                        coef(unexplained) se(unexplained) coef(unexplained A)
+(Intercept)                     2.6292118     1.367976134           2.6292118
+year                           -2.1628531     1.361927712          -2.1628531
+quarter                        -0.3428404     0.006582172          -0.3428404
+labor_force                     0.2186987     0.009876912           0.2186987
+avg_quarter_emp                -0.2393311     0.010823043          -0.2393311
+tot_quarterly_wages             0.0267007     0.005095141           0.0267007
+avg_weekly_wage                 0.0467355     0.017964695           0.0467355
+employment_loc_quotient                NA              NA                  NA
+                        se(unexplained A) coef(unexplained B)
+(Intercept)                   1.367976134                   0
+year                          1.361927712                   0
+quarter                       0.006582172                   0
+labor_force                   0.009876912                   0
+avg_quarter_emp               0.010823043                   0
+tot_quarterly_wages           0.005095141                   0
+avg_weekly_wage               0.017964695                   0
+employment_loc_quotient                NA                  NA
+                        se(unexplained B)
+(Intercept)                             0
+year                                    0
+quarter                                 0
+labor_force                             0
+avg_quarter_emp                         0
+tot_quarterly_wages                     0
+avg_weekly_wage                         0
+employment_loc_quotient                NA
+
+$twofold$variables[[2]]
+                        group.weight coef(explained) se(explained)
+(Intercept)                        1    0.000000e+00  0.0000000000
+year                               1    1.876472e-03  0.0008958987
+quarter                            1   -2.643017e-06  0.0012456925
+labor_force                        1   -2.302521e+00  0.1054554313
+avg_quarter_emp                    1    2.985369e+00  0.1360028975
+tot_quarterly_wages                1   -5.139106e-01  0.0963149199
+avg_weekly_wage                    1   -1.144240e-02  0.0035372280
+employment_loc_quotient            1              NA            NA
+                        coef(unexplained) se(unexplained) coef(unexplained A)
+(Intercept)                    2.62921182     1.367976134                   0
+year                          -2.16494810     1.363247371                   0
+quarter                       -0.34283945     0.006621781                   0
+labor_force                    2.47887028     0.115709019                   0
+avg_quarter_emp               -3.17653879     0.147371192                   0
+tot_quarterly_wages            0.53433348     0.101632591                   0
+avg_weekly_wage                0.05942013     0.022833927                   0
+employment_loc_quotient                NA              NA                  NA
+                        se(unexplained A) coef(unexplained B)
+(Intercept)                             0          2.62921182
+year                                    0         -2.16494810
+quarter                                 0         -0.34283945
+labor_force                             0          2.47887028
+avg_quarter_emp                         0         -3.17653879
+tot_quarterly_wages                     0          0.53433348
+avg_weekly_wage                         0          0.05942013
+employment_loc_quotient                NA                  NA
+                        se(unexplained B)
+(Intercept)                   1.367976134
+year                          1.363247371
+quarter                       0.006621781
+labor_force                   0.115709019
+avg_quarter_emp               0.147371192
+tot_quarterly_wages           0.101632591
+avg_weekly_wage               0.022833927
+employment_loc_quotient                NA
+
+$twofold$variables[[3]]
+                        group.weight coef(explained) se(explained)
+(Intercept)                      0.5    0.000000e+00  0.0000000000
+year                             0.5    8.289876e-04  0.0005676932
+quarter                          0.5   -2.164358e-06  0.0010209735
+labor_force                      0.5   -1.172435e+00  0.0526612592
+avg_quarter_emp                  0.5    1.516765e+00  0.0678576391
+tot_quarterly_wages              0.5   -2.600942e-01  0.0480954635
+avg_weekly_wage                  0.5   -5.100081e-03  0.0022004064
+employment_loc_quotient          0.5              NA            NA
+                        coef(unexplained) se(unexplained) coef(unexplained A)
+(Intercept)                    2.62921182      1.36797613          1.31460591
+year                          -2.16390061      1.36258754         -1.08142656
+quarter                       -0.34283993      0.00659818         -0.17142021
+labor_force                    1.34878447      0.06275717          0.10934933
+avg_quarter_emp               -1.70793495      0.07905094         -0.11966556
+tot_quarterly_wages            0.28051709      0.05336179          0.01335035
+avg_weekly_wage                0.05307781      0.02039929          0.02336775
+employment_loc_quotient                NA              NA                  NA
+                        se(unexplained A) coef(unexplained B)
+(Intercept)                   0.683988067          1.31460591
+year                          0.680963856         -1.08247405
+quarter                       0.003291086         -0.17141973
+labor_force                   0.004938456          1.23943514
+avg_quarter_emp               0.005411521         -1.58826939
+tot_quarterly_wages           0.002547570          0.26716674
+avg_weekly_wage               0.008982348          0.02971006
+employment_loc_quotient                NA                  NA
+                        se(unexplained B)
+(Intercept)                   0.683988067
+year                          0.681623686
+quarter                       0.003310891
+labor_force                   0.057854510
+avg_quarter_emp               0.073685596
+tot_quarterly_wages           0.050816296
+avg_weekly_wage               0.011416963
+employment_loc_quotient                NA
+
+$twofold$variables[[4]]
+                        group.weight coef(explained) se(explained)
+(Intercept)                0.6852952    0.000000e+00  0.0000000000
+year                       0.6852952    1.217175e-03  0.0006046093
+quarter                    0.6852952   -2.341745e-06  0.0009376984
+labor_force                0.6852952   -1.591234e+00  0.0332293302
+avg_quarter_emp            0.6852952    2.061015e+00  0.0427516868
+tot_quarterly_wages        0.6852952   -3.541562e-01  0.0302675669
+avg_weekly_wage            0.6852952   -7.450482e-03  0.0022384077
+employment_loc_quotient    0.6852952              NA            NA
+                        coef(unexplained) se(unexplained) coef(unexplained A)
+(Intercept)                    2.62921182     1.367976134         0.827425540
+year                          -2.16428880     1.362343015        -0.680660228
+quarter                       -0.34283975     0.006591358        -0.107893518
+labor_force                    1.76758345     0.043137868         0.068825512
+avg_quarter_emp               -2.25218548     0.053736815        -0.075318649
+tot_quarterly_wages            0.37457902     0.035473249         0.008402838
+avg_weekly_wage                0.05542822     0.019497043         0.014707885
+employment_loc_quotient                NA              NA                  NA
+                        se(unexplained A) coef(unexplained B)
+(Intercept)                   0.937467499          1.80178628
+year                          0.933322544         -1.48362857
+quarter                       0.004510731         -0.23494624
+labor_force                   0.006768601          1.69875794
+avg_quarter_emp               0.007416980         -2.17686683
+tot_quarterly_wages           0.003491675          0.36617618
+avg_weekly_wage               0.012311120          0.04072033
+employment_loc_quotient                NA                  NA
+                        se(unexplained B)
+(Intercept)                   0.430508635
+year                          0.429020471
+quarter                       0.002083906
+labor_force                   0.036414182
+avg_quarter_emp               0.046378419
+tot_quarterly_wages           0.031984263
+avg_weekly_wage               0.007185946
+employment_loc_quotient                NA
+
+$twofold$variables[[5]]
+                        group.weight coef(explained) se(explained)
+(Intercept)                       -1    0.000000e+00  0.000000e+00
+year                              -1   -9.574508e-04  5.496185e-04
+quarter                           -1   -2.338850e-06  1.103055e-03
+labor_force                       -1   -4.968496e-02  6.076652e-03
+avg_quarter_emp                   -1    5.837085e-02  7.401803e-03
+tot_quarterly_wages               -1   -8.939126e-03  3.083497e-03
+avg_weekly_wage                   -1    1.450304e-03  1.942930e-03
+employment_loc_quotient           -1    1.798828e-05  1.374163e-05
+                        coef(unexplained) se(unexplained) coef(unexplained A)
+(Intercept)                    2.62921182     1.367976134          3.00579748
+year                          -2.16211417     1.362719862         -2.92575097
+quarter                       -0.34283976     0.006605897         -0.10893005
+labor_force                    0.22603406     0.010289252          0.21798886
+avg_quarter_emp               -0.24954098     0.011210725         -0.23849920
+tot_quarterly_wages            0.02936198     0.005317943          0.02656072
+avg_weekly_wage                0.04652743     0.020265745          0.04750212
+employment_loc_quotient                NA              NA         -0.02448817
+                        se(unexplained A) coef(unexplained B)
+(Intercept)                   0.589993151       -0.3765856627
+year                          0.588121703        0.7636367932
+quarter                       0.002157963       -0.2339097099
+labor_force                   0.009842516        0.0080451947
+avg_quarter_emp               0.010798720       -0.0110417879
+tot_quarterly_wages           0.005087910        0.0028012565
+avg_weekly_wage               0.010108029       -0.0009746887
+employment_loc_quotient       0.014484686                  NA
+                        se(unexplained B)
+(Intercept)                   0.846337790
+year                          0.839194088
+quarter                       0.004526973
+labor_force                   0.001115730
+avg_quarter_emp               0.001440388
+tot_quarterly_wages           0.000991101
+avg_weekly_wage               0.011466901
+employment_loc_quotient                NA
+
+$twofold$variables[[6]]
+                        group.weight coef(explained) se(explained)
+(Intercept)                       -2    0.000000e+00  0.000000e+00
+year                              -2   -9.382937e-04  5.772165e-04
+quarter                           -2   -2.338923e-06  1.103081e-03
+labor_force                       -2   -4.976886e-02  6.115842e-03
+avg_quarter_emp                   -2    5.833320e-02  7.389993e-03
+tot_quarterly_wages               -2   -8.877220e-03  3.072401e-03
+avg_weekly_wage                   -2    1.340656e-03  2.151592e-03
+employment_loc_quotient           -2    1.801816e-05  1.371851e-05
+                        coef(unexplained) se(unexplained) coef(unexplained A)
+(Intercept)                    2.62921182     1.367976134          2.98597283
+year                          -2.16213333     1.362714892         -2.90597313
+quarter                       -0.34283976     0.006605892         -0.10890389
+labor_force                    0.22611796     0.010263942          0.21798074
+avg_quarter_emp               -0.24950333     0.011207014         -0.23850226
+tot_quarterly_wages            0.02930007     0.005291533          0.02656398
+avg_weekly_wage                0.04663708     0.020315884          0.04709813
+employment_loc_quotient                NA              NA         -0.02423639
+                        se(unexplained A) coef(unexplained B)
+(Intercept)                   0.581641901       -0.3567610142
+year                          0.579975453        0.7438397982
+quarter                       0.002132588       -0.2339358635
+labor_force                   0.009843205        0.0081372132
+avg_quarter_emp               0.010799419       -0.0110010694
+tot_quarterly_wages           0.005089506        0.0027360948
+avg_weekly_wage               0.009791783       -0.0004610488
+employment_loc_quotient       0.014333641                  NA
+                        se(unexplained B)
+(Intercept)                  0.8313406013
+year                         0.8248776817
+quarter                      0.0045465901
+labor_force                  0.0009085208
+avg_quarter_emp              0.0014799046
+tot_quarterly_wages          0.0010077790
+avg_weekly_wage              0.0115344350
+employment_loc_quotient                NA
+
+
+
+$x
+$x$x.mean.A
+            (Intercept)                    year                 quarter 
+           1.000000e+00            2.006395e+03            2.500007e+00 
+            labor_force         avg_quarter_emp     tot_quarterly_wages 
+           1.119921e+04            8.356996e+03            6.583087e+07 
+        avg_weekly_wage employment_loc_quotient 
+           5.672791e+02            9.998813e-01 
+
+$x$x.mean.B
+            (Intercept)                    year                 quarter 
+           1.000000e+00            2.008339e+03            2.500000e+00 
+            labor_force         avg_quarter_emp     tot_quarterly_wages 
+           1.269390e+05            1.109188e+05            1.317405e+09 
+        avg_weekly_wage employment_loc_quotient 
+           7.212461e+02            1.000000e+00 
+
+$x$x.mean.diff
+            (Intercept)                    year                 quarter 
+           0.000000e+00           -1.943423e+00            6.980803e-06 
+            labor_force         avg_quarter_emp     tot_quarterly_wages 
+          -1.157398e+05           -1.025618e+05           -1.251574e+09 
+        avg_weekly_wage employment_loc_quotient 
+          -1.539670e+02           -1.186736e-04 
+
+
+$y
+$y$y.A
+[1] -0.003499649
+
+$y$y.B
+[1] -0.004329425
+
+$y$y.diff
+[1] 0.0008297756
+
+
+attr(,"class")
+[1] "oaxaca"

@@ -1,55 +1,12 @@
-library(dplyr)
-library(tidyr)
-library(readr)
-library(lubridate)
-library(oaxaca)
-library(stringr)
-library(quantreg)
+# install.packages(c("sandwich","lmtest","quantreg","dplyr","purrr","tidyr","ggplot2"))
 library(sandwich)
 library(lmtest)
+library(quantreg)
+library(dplyr)
 library(purrr)
+library(tidyr)
+library(ggplot2)
 
-# Define directory paths
-working_directory <- "C:/Users/cnlub/OneDrive/Documents/nsf-program/"
-data_directory <- paste0(working_directory, "data/")
-
-# Read in the decomposed cyclical and trend dataset with other monthly data
-decomposed <- read_csv(paste0(data_directory, "counties_decomposed.csv"), show_col_types = FALSE)
-
-# We should now import our county-quarterly panel
-county_panel <- read_csv(paste0(data_directory, "county_panel.csv"), show_col_types = FALSE)
-
-# Lastly, we have to import our classifications
-classifications <- read_csv(paste0(data_directory, "classifications.csv"), show_col_types = FALSE) |> 
-  select(-FIPS)
-
-# Aggregate the monthly data into quarterly frequency
-decomposed_quarterly <- decomposed |>
-  mutate(year = year(date), quarter = quarter(date)) |>
-  group_by(area_name, area_code, county, state, year, quarter) |>
-  summarise(
-    cycle = mean(cycle, na.rm = TRUE),
-    trend = mean(trend, na.rm = TRUE),
-    Unemployment = mean(Unemployment, na.rm = TRUE),
-    Employment = mean(Employment, na.rm = TRUE),
-    `Labor Force` = mean(`Labor Force`, na.rm = TRUE),
-    .groups = "drop") |> 
-  mutate(county = str_replace(county, "/city", ""),
-         county = str_replace(county, "/town", ""))
-
-# Finalize our data format
-regression_data <- decomposed_quarterly |> 
-  left_join(classifications, by = c("state", "county", "year")) |> 
-  left_join(county_panel |> filter(ownership == "Total Covered"),
-            by = c("state", "county", "year", "quarter")) |>
-  mutate(county = as.factor(county), state = as.factor(state)) |> 
-  mutate(avg_quarter_emp = (month_1_emp + month_2_emp + month_3_emp) / 3, .keep = "unused") |> 
-  filter(year != 2025, str_detect(county, "County")) |> 
-  drop_na(metro) |> 
-  rename(labor_force = `Labor Force`)
-write_csv(regression_data, paste0(data_directory, "regression_data.csv"))
-
-# Functions to get the decomposition -------------------------------------------
 # Helper: cluster-robust vcov
 vcov_robust <- function(fit, cluster = NULL, type = "HC1") {
   if (!is.null(cluster)) {
@@ -180,6 +137,22 @@ oaxaca_mean_delta <- function(formula, data, group_var, group_A, group_B,
   )
 }
 
+rhs <- ~ year + quarter + labor_force + avg_quarter_emp +
+  tot_quarterly_wages + avg_weekly_wage + employment_loc_quotient
+
+out <- oaxaca_mean_delta(
+  formula = formula(paste0("cycle ", paste(rhs, collapse = " "))),
+  data       = regression_data |> drop_na(),
+  group_var  = "metro",
+  group_A    = 1,
+  group_B    = 0,
+  cluster_var = NULL, #regression_data |> drop_na() |> pull(county),
+  robust     = TRUE,
+  alpha      = 0.05
+)
+
+
+
 # Build rif_y, then call oaxaca_mean_delta on rif_y ~ X
 rif_oaxaca_delta_profile <- function(taus, rhs_formula, data, group_var, group_A, group_B,
                                      cluster_var = NULL, robust = TRUE, alpha = 0.05) {
@@ -207,33 +180,15 @@ rif_oaxaca_delta_profile <- function(taus, rhs_formula, data, group_var, group_A
     
     out <- res$estimates %>%
       mutate(tau = tau, component = factor(component,
-                                           levels = c("mean_y_A", "mean_y_B", "mean_diff",
-                                                      "explained", "unexplained", "total")))
+                  levels = c("mean_y_A", "mean_y_B", "mean_diff",
+                             "explained", "unexplained", "total")))
     out
   })
 }
 
-rhs <- ~ year + quarter + labor_force + avg_quarter_emp +
-  tot_quarterly_wages + avg_weekly_wage + employment_loc_quotient
+# 2) RIF–Oaxaca across quantiles (e.g., 10th, 25th, 50th, 75th, 90th)
+taus <- c(0.05, 0.10, 0.2, 0.25, 0.40, 0.50, 0.60, 0.75, 0.8, 0.90, 0.95)
 
-# Simple oaxaca decomposition
-out <- oaxaca_mean_delta(
-  formula = formula(paste0("cycle ", paste(rhs, collapse = " "))),
-  data       = regression_data |> drop_na(),
-  group_var  = "metro",
-  group_A    = 1,
-  group_B    = 0,
-  cluster_var = NULL,
-  robust     = TRUE,
-  alpha      = 0.05
-)
-
-saveRDS(out, paste0(working_directory, "output/oaxaca_results.rds"))
-
-# Quantiles to run the RIF function
-taus <- seq(from = 0.05, to = 1, by = 0.05) # c(0.05, 0.10, 0.2, 0.25, 0.40, 0.50, 0.60, 0.75, 0.8, 0.90, 0.95)
-
-# Use the RIF function through the Oaxaca Decomposition
 rif_prof <- rif_oaxaca_delta_profile(
   taus       = taus,
   rhs_formula = rhs,
@@ -241,17 +196,7 @@ rif_prof <- rif_oaxaca_delta_profile(
   group_var  = "metro",
   group_A    = 1,
   group_B    = 0,
-  cluster_var = NULL,
+  cluster_var = NULL, #regression_data |> drop_na() |> pull(county),
   robust     = TRUE,
   alpha      = 0.05
 )
-
-saveRDS(rif_prof, paste0(working_directory, "output/rif_results.rds"))
-
-
-
-
-
-
-# “What’s the gap in the τ‑quantile of the cross‑sectional distribution
-# of county–quarter unemployment rates?
